@@ -2,9 +2,13 @@ NEW_ROOT=/tmp/myroot
 
 CFLAGS= -std=c99 -D_GNU_SOURCE -DNEW_ROOT=\"$(NEW_ROOT)\"
 
-show_simple: create_root simple
-	@echo -e "\n\n----------- SIMPLE EXAMPLE ---------------------------------\n"
-	sudo ./simple
+show_simple_filedes: create_root simple_filedes
+	@echo -e "\n\n----------- SIMPLE EXAMPLE FILEDES ---------------------------------\n"
+	sudo ./simple_filedes
+
+show_simple_current_dir: create_root simple_current_dir
+	@echo -e "\n\n----------- SIMPLE EXAMPLE CURRENT DIR -----------------------------\n"
+	sudo ./simple_current_dir
 
 show_vulnerability: create_root vulnerable
 	@echo -e "\n\n----------- VULNERABILITY EXAMPLE ---------------------------------\n"
@@ -12,7 +16,10 @@ show_vulnerability: create_root vulnerable
 
 ########################################################################
 
-simple: temporary_chroot.o ls_root.o example.o
+simple_filedes: temporary_chroot.o ls_root.o simple_filedes.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+simple_current_dir: temporary_chroot.o ls_root.o simple_current_dir.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 vulnerable: vulnerable_program.o 
@@ -38,4 +45,4 @@ create_root: libevil.so
 	
 clean:
 	rm -rf $(NEW_ROOT)
-	rm -f ./*.o ./vulnerable ./simple ./*.so
+	rm -f ./*.o ./vulnerable ./simple_filedes ./simple_current_dir ./*.so

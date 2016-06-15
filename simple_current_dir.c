@@ -1,20 +1,19 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <dirent.h>
+#include <unistd.h>
 
-#include "temporary_chroot.h"
 #include "ls_root.h"
 
 int main() {
 	printf("--- My root:\n");
 	ls_root();
+	chdir("/");
 
 
-	int fildes = temporary_chroot(NEW_ROOT);
+	chroot(NEW_ROOT);
 		printf("\n\n--- New root:\n");
 		ls_root();
-	temporary_chroot_escape(fildes);
-	
+	chroot(".");
 	
 	printf("\n\n--- My root, again:\n");
 	ls_root();

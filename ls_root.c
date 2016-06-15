@@ -16,7 +16,7 @@ void ls_root() {
 		if (i >= 2) {
 			printf("- %s\n",ent->d_name);
 		}
-    }
+	}
 
 	closedir(dp);
    

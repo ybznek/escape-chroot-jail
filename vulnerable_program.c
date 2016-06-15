@@ -15,13 +15,13 @@ int main(int argc, char* argv[]) {
 
 		// Load evil library from new root
 		void *handle = dlopen("libevil.so", RTLD_LAZY);
-		if (handle == NULL) printf("null\n");
+
 		func_ptr f = (func_ptr)dlsym(handle, "action");
 
 		// Run library code
 		f();
 
-    dlclose(handle);
-   
+	dlclose(handle);
+	close(file_des);
 	return 0;
 }
